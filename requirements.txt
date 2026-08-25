@@ -1,0 +1,13 @@
+fastmcp>=2.0
+fastapi>=0.141.1
+pydantic>=2.11
+pydantic-settings>=2.15.0
+python-dotenv>=1.2.3
+requests>=2.34.2
+uvicorn>=0.52.4
+starlette>=1.6.0
+ipython>=9.16.1
+hdbcli>=2.29.25
+hana_ml>=2.30.26091503
+hana_ai
+sap-ai-sdk-gen>=7.2.0

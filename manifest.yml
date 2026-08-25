@@ -1,0 +1,16 @@
+applications:
+  - name: hana-ai-mcp-llm
+    memory: 512M
+    disk_quota: 2G
+    instances: 1
+    stack: cflinuxfs5
+    buildpacks:
+      - python_buildpack
+    health-check-type: process
+    health-check-timeout: 180
+    command: python server/mcpServer.py
+    env:
+      PYTHONUNBUFFERED: true
+      HANA_HOST: "1c621177-bed3-434e-8977-27676c9d4dfa.hna1.prod-us10.hanacloud.ondemand.com"
+      HANA_USER: "DBADMIN"
+      HANA_PASSWORD: ""
