@@ -8,7 +8,10 @@ import logging
 #from fastmcp.server.server import Transport
 from hana_ml import ConnectionContext
 #from hana_ai.tools.toolkit import HANAMLToolkit
-import fastmcp
+from mcp.server.mcpserver import MCPServer,Context
+
+
+
 from utilities import JNJUtilities
 
 try:
@@ -29,7 +32,7 @@ logger = logging.getLogger()
 mcp_server_name, mcp_server_host, mcp_server_port, mcp_transport, mcp_context_path = JNJUtilities.getMcpServerPropsFromEnvironment()
 hana_host, hana_user, hana_password, hana_proc_schema , hana_proc_name= JNJUtilities.getHanaCredentialsFromEnvironment()
 
-mcp = fastmcp.FastMCP(name=mcp_server_name,  instructions="")
+mcp = MCPServer(name=mcp_server_name,  instructions="")
 
 def main(): 
 
@@ -44,8 +47,8 @@ def main():
     #    transport    = str(mcp_transport),
     #    max_retries=5
     # )
-    
-    mcp.run(transport="streamable-http", show_banner=False, host=mcp_server_host, port=mcp_server_port, path=mcp_context_path)
+
+    mcp.run(transport="streamable-http", stateless_http=True, host=mcp_server_host, port=mcp_server_port)
     logging.info("MCP server is running. Press Ctrl+C to stop.")
   
   
@@ -63,10 +66,10 @@ def get_data_discoagent(query: str ) -> dict:
     ctx = build_connection_context()
     conn = ctx.connection
     logging.info("Connecting to HANA at %s", ctx.address)            
-    #print("Connecting to HANA at %s", ctx.address) 
+    print("Connecting to HANA at %s", ctx.address) 
     cursor = conn.cursor()
-    result = cursor.callproc(hana_proc_schema +'.'+ hana_proc_name,(json.dumps({"query": query}),None))
-    #print({"response":json.dumps(result, default=str)})
+    result =cursor.callproc(hana_proc_schema +'.'+ hana_proc_name,(json.dumps({"query": query}),None))
+    print({"response":json.dumps(result, default=str)})
     cursor.close()
     
     return {"result": result}
